@@ -68,7 +68,7 @@
 
 ### 다형성과 LSP의 관계
 - 다형성(Polymorphism)은 객체지향의 핵성 개념 중 하나로, 부모 타입 변수로 자식 타입 객체를 참조해서 실행 시점에 자식의 메서드가 호출되는 성질이다.
-- LSP는ㄴ 다형성이 제대로 동작하려면 반드시 지켜야 하는 원칙이다.
+- LSP는 다형성이 제대로 동작하려면 반드시 지켜야 하는 원칙이다.
 - 즉, 다형성을 활용하는 코드가 부모 타입을 기대하고 작성되었을 때, 자식 타입이 부모 타입을 완벽히 대체하지 못하면 예기치 않은 오류가 발생한다.
 
 #### LSP 위반 예시
@@ -139,6 +139,90 @@ class Ostrich extends Bird {
 > #### **LSP는 다형성이 올바르게 작동하기 위해 반드시 지켜야 하는 원칙이다.**
 
 ---
-## ISP(Interface Segreation Principle) : 인터페이스 분리 원칙
+## ISP(Interface Segreation Principle) - 인터페이스 분리 원칙
+- **클라이언트는 자신이 사용하지 않는 인터페이스에 의존하지 않아야 한다**는 원칙
+- 즉, 여러가지 기능들이 있는 하나의 거대한 인터페이스를 만들기보단, **작고 목적이 분명한 인터페이스들로 분리**해서, 
+**각 클래스가 자신이 실제로 필요로 하는 기능만 구현**하게 하라는 원칙이다.
+>예를들어 ISP는 마치 "과목별로 나눠진 참고서"와 같다.  
+> 영어만 공부하고 싶은데, 국영수사과가 한 권에 다 들어있는 종합 참고서라면 안쓰는 페이지가 훨씬 많고 무겁다.  
+> ISP는 이런 걸 방지하려고, **필요한 것만 담긴 얇고 가벼운 참고서**를 만들자는 것이다.
+
+#### ISP위반 예시 : 너무 많은 기능이 한 인터페이스에 몰린 경우
+```java
+// 문서 장비 기능 인터페이스
+interface Machine {
+    void print(Document d);
+    void scan(Document d);
+    void fax(Document d);
+}
+
+// 오래된 프린터는 프린트만 가능함
+class OldPrinter implements Machine {
+    public void print(Document d) {
+        System.out.println("Printed: " + d.getText());
+    }
+
+    public void scan(Document d) {
+        // 쓸 수 없음
+        throw new UnsupportedOperationException("Scan not supported");
+    }
+
+    public void fax(Document d) {
+        // 쓸 수 없음
+        throw new UnsupportedOperationException("Fax not supported");
+    }
+}
+
+```
+- OldPrinter는 프린트만 할 수 있는데, 스캔과 팩스도 구현을 해야한다.
+- 클래스가 사용하지도 않을 기능을 가진 인터페이스를 구현하면, 메서드만 억지로 오버라이딩한 뒤 내부를 비워두거나 예외를 던지는 방식으로 처리하게 된다.   
+- 이는 ISP 위반의 대표적인 사례다
+
+#### 인터페이스를 역할별로 분리하여 ISP를 만족시킨다.
+```java
+interface Printer {
+    void print(Document d);
+}
+
+interface Scanner {
+    void scan(Document d);
+}
+
+interface Fax {
+    void fax(Document d);
+}
+
+// 프린트만 되는 프린터
+class OldPrinter implements Printer {
+    public void print(Document d) {
+        System.out.println("Printed: " + d.getText());
+    }
+}
+
+// 복합기
+class MultiFunctionPrinter implements Printer, Scanner, Fax {
+    public void print(Document d) {
+        System.out.println("Printed: " + d.getText());
+    }
+
+    public void scan(Document d) {
+        System.out.println("Scanned: " + d.getText());
+    }
+
+    public void fax(Document d) {
+        System.out.println("Faxed: " + d.getText());
+    }
+}
+
+```
+- OldPrinter는 프린터 기능만 구현, 나머지는 몰라도 된다
+- MultiFunctionPrinter는 필요한 인터페이스만 선택적으로 조합가능하다.
+- 나중에 기능이 늘어나도 인터페이스를 독립적으로 관리 가능하다.
+
+>결국 ISP는 **“인터페이스에 있어서 단일 책임 원칙을 지키자”** 는 의미라고 볼 수 있다.  
+즉, 하나의 클래스처럼, 인터페이스도 하나의 목적에만 집중하도록 설계해야 한다.
+
+---
+
 
 
