@@ -4,9 +4,15 @@ package solid.ocp;
 //새로운 포지션을 추가할때는 기존의 로직은 건드리지 않고,
 //기존 클래스를 상속받거나, 구조체만 생성하여 기능을 확장할 수 있다.
 
+//추상클래스 or
 abstract class Position{
     abstract void player();
 }
+
+//인터페이스
+//interface Position{
+//     void palyer();
+//}
 
 class FW extends Position{
     @Override
