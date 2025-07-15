@@ -1,4 +1,4 @@
-package solid.codeRefactoring.OCPSRP;
+package codeRefactoring.OCPSRP;
 
 import java.util.HashMap;
 import java.util.Map;

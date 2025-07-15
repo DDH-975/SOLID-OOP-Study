@@ -1,4 +1,4 @@
-package solid.codeRefactoring.OCPSRP;
+package codeRefactoring.OCPSRP;
 
 public class LocationInfo {
     private String location;
