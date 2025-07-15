@@ -11,7 +11,7 @@ abstract class Position{
 
 //인터페이스
 //interface Position{
-//     void palyer();
+//     void player();
 //}
 
 class FW extends Position{
