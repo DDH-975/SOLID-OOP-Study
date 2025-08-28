@@ -114,17 +114,11 @@ class Bird{
 
 interface Flyablbe{
     void fly();
-    void land();
 }
 class Sparrow extends Bird implements Flyablbe{
     @Override
     public void fly(){
         System.out.println("참새가 난다.");
-    }
-    
-    @Override 
-    public void land(){
-        System.out.println("착륙한다.");
     }
 }
 
